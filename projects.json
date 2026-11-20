@@ -1,0 +1,13 @@
+{
+  "completed": [
+    "fcavaletto/saying-is-not-using-it",
+    "fcavaletto/preference-consistency"
+  ],
+  "research-in-progress": [
+    "fcavaletto/character-hold",
+    "fcavaletto/prompt-injection-eval",
+    "fcavaletto/vlm-crossmodal-attack-transfer",
+    "fcavaletto/crossmodal-vlm-robustness",
+    "fcavaletto/value-acquisition-research-framework"
+  ]
+}
