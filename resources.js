@@ -41,10 +41,10 @@ function renderResources(){
   const result=selectResources(resources,{format:activeFormat,query:search.value,sort:sort.value});
   document.getElementById('resource-grid').innerHTML=result.map(cardHTML).join('');
   const filtered=activeFormat!=='all'||search.value.trim().length>0;
-  document.getElementById('resource-count').textContent=filtered?`${result.length} of ${resources.length} resources`:`${resources.length} ${resources.length===1?'resource':'resources'}`;
+  document.getElementById('resource-count').textContent=filtered?`${result.length} of ${resources.length} recommendations`:`${resources.length} ${resources.length===1?'recommendation':'recommendations'}`;
   document.getElementById('resource-empty').hidden=result.length>0;
-  document.getElementById('resource-empty-title').textContent=filtered?'No resources match this view.':'The shelf is taking shape.';
-  document.getElementById('resource-empty-description').textContent=filtered?'Try another format, a broader search, or clear the filters.':'This is where my personal picks will live, along with a short note on why each one stayed with me. First links coming soon.';
+  document.getElementById('resource-empty-title').textContent=filtered?'No recommendations match this view.':'No recommendations yet.';
+  document.getElementById('resource-empty-description').textContent=filtered?'Try another format, a broader search, or clear the filters.':'';
   document.getElementById('resource-empty-reset').hidden=!filtered;
   document.getElementById('resource-reset').hidden=!filtered;
   document.querySelectorAll('[data-format]').forEach(button=>{const active=button.dataset.format===activeFormat;button.classList.toggle('active',active);button.setAttribute('aria-pressed',String(active));});
