@@ -26,21 +26,29 @@
   <section class="hero wrap" aria-labelledby="hero-title">
     <div class="hero-copy">
       <h1 id="hero-title">Federico Cavaletto</h1>
-      <p class="hero-description">I work in supply-chain analytics in Turin. In my spare time I run experiments with AI models. Recently I’ve been looking at how a model chooses between two answers, and how easily it changes its mind.</p>
+      <p class="hero-description">I work in supply-chain analytics in Turin and want to move into AI safety. I’d like AI to help people flourish while we stay in control of the decisions that shape our lives. I’m interested in the technical work of building safe systems and the ethical questions about who decides when and how to use them.</p>
       <div class="hero-actions"><a class="button primary" href="#projects">Browse projects <span class="arrow-icon down-right" aria-hidden="true"></span></a></div>
     </div>
-    <aside class="featured-result" aria-labelledby="chart-heading">
-      <div class="featured-top"><span class="eyebrow">VISION-LANGUAGE MODELS</span></div>
-      <h2 id="chart-heading">Which image changes mattered?</h2>
-      <p class="chart-intro">For each image, I compared different ways of choosing which colour-channel values to change. How much did that choice affect the model’s answer?</p>
-      <div class="segmented" role="group" aria-label="Chart sample"><button class="selected" data-sample="heldout" aria-pressed="true">Held-out · n = 48</button><button data-sample="dev" aria-pressed="false">Development · n = 48</button></div>
-      <div id="result-chart" class="result-chart"></div>
-      <div class="chart-axis"><span>Mean margin drop (logits)</span><span>95% bootstrap CIs</span></div>
-      <div class="result-takeaway"><span id="selection-value">+6.50</span><div><strong>Selection advantage over random</strong><p id="selection-ci">95% CI [6.08, 6.92] · pre-registered confirmation</p></div></div>
-      <p class="chart-caveat">Qwen3-VL-2B · ε = 1/255 · synthetic scenes. The mechanism remains open.</p>
-      <button class="text-link" data-project="selection">Study details <span class="arrow-icon" aria-hidden="true"></span></button>
-      <a class="text-link paper-link" href="https://github.com/fcavaletto/vlm-crossmodal-attack-transfer/blob/1687713241a0c44ee66ab459c92aadc97802f3df/docs/paper/Cavaletto_2026_Which-Coordinates-Not-How-Many_review-draft.pdf">Paper draft (PDF)</a>
-    </aside>
+    <section class="featured-result" id="featured-projects" aria-label="Featured projects">
+      <div class="carousel-controls" hidden>
+        <div class="project-dots" role="group" aria-label="Choose a project"></div>
+        <button type="button" class="rotation-control"></button>
+      </div>
+      <div class="feature-slides">
+        <article class="feature-slide" id="featured-chart">
+          <div class="featured-top"><span class="eyebrow">VISION-LANGUAGE MODELS</span></div>
+          <h2 id="chart-heading">Which image changes mattered?</h2>
+          <p class="chart-intro">For each image, I compared different ways of choosing which colour-channel values to change. How much did that choice affect the model’s answer?</p>
+          <div class="segmented" role="group" aria-label="Chart sample"><button class="selected" data-sample="heldout" aria-pressed="true">Held-out · n = 48</button><button data-sample="dev" aria-pressed="false">Development · n = 48</button></div>
+          <div id="result-chart" class="result-chart"></div>
+          <div class="chart-axis"><span>Mean margin drop (logits)</span><span>95% bootstrap CIs</span></div>
+          <div class="result-takeaway"><span id="selection-value">+6.50</span><div><strong>Selection advantage over random</strong><p id="selection-ci">95% CI [6.08, 6.92] · pre-registered confirmation</p></div></div>
+          <p class="chart-caveat">Qwen3-VL-2B · ε = 1/255 · synthetic scenes. The mechanism remains open.</p>
+          <button class="text-link" data-project="selection">Study details <span class="arrow-icon" aria-hidden="true"></span></button>
+          <a class="text-link paper-link" href="https://github.com/fcavaletto/vlm-crossmodal-attack-transfer/blob/1687713241a0c44ee66ab459c92aadc97802f3df/docs/paper/Cavaletto_2026_Which-Coordinates-Not-How-Many_review-draft.pdf">Paper draft (PDF)</a>
+        </article>
+      </div>
+    </section>
   </section>
   <section id="projects" class="wrap section" aria-labelledby="projects-title">
     <div class="section-heading"><h2 id="projects-title">Projects</h2></div>

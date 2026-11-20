@@ -25,18 +25,22 @@ const studies = {
 
 const projectNotes = {
   'fcavaletto/saying-is-not-using-it': {
+    setup: [['Model', 'Qwen3-14B'], ['What I compared', 'Repeating a claim, choosing between options, and answering a counterargument.']],
     title: 'What does a model learn when you teach it a claim?',
     note: 'I fine-tuned Qwen to repeat a claim, then tested whether it would use that claim when making a choice. It learned to say the sky was green. Getting it to act on that answer was harder.'
   },
   'fcavaletto/preference-consistency': {
+    setup: [['Judges', 'Qwen2.5 7B and Llama 3.2 3B'], ['Test set', 'The same 100 pairs of replies, shown in both orders.']],
     title: 'Swapping the order of two answers',
     note: 'I asked Qwen to choose the better of two replies, then swapped their order. On 30 of the 100 pairs, it chose the other reply.'
   },
   'fcavaletto/character-hold': {
+    setup: [['Prompt versions', 'A character description, a direct instruction, or neither.'], ['What I measure', 'How far the assistant yields as the conversation puts it under pressure.']],
     title: 'Assistant character under pressure',
     note: 'I’m comparing two ways of giving the same guidance to an assistant. One describes its character. The other tells it directly what to do.'
   },
   'fcavaletto/prompt-injection-eval': {
+    setup: [['Setting', 'An assistant reads material returned by a tool.'], ['What I check', 'What text actually reaches the model and whether it follows the user’s task.']],
     title: 'Evaluating prompt-injection defences',
     note: 'I’m testing how well local language models keep following the user’s task when instructions turn up in a document they have been asked to read.'
   },
@@ -51,6 +55,7 @@ const projectNotes = {
     study: 'context'
   },
   'fcavaletto/value-acquisition-research-framework': {
+    setup: [['Teaching materials', 'Short stories and explanatory essays.'], ['What I want to measure', 'Whether a model applies the value in a new situation.']],
     title: 'Can models learn values from stories?',
     note: 'I’m interested in whether a story and an essay teaching the same idea have different effects on what a model does later.'
   }
@@ -101,10 +106,151 @@ function projectVisual(id){
 let projectLists;
 const listNames = {completed: 'Completed', 'research-in-progress': 'Research in progress'};
 
+function projectNote(repository) {
+  return projectNotes[repository] || {title: repository.split('/')[1]};
+}
+
+function createFeatureSlide(repository, status) {
+  const note = projectNote(repository);
+  const slide = document.createElement('article');
+  slide.className = 'feature-slide feature-summary';
+  const details = (note.setup || []).map(([label, value]) =>
+    `<div><dt>${esc(label)}</dt><dd>${esc(value)}</dd></div>`
+  ).join('');
+  slide.innerHTML = `
+    <p class="eyebrow">${esc(status)}</p>
+    <h2>${esc(note.title)}</h2>
+    ${note.note ? `<p class="feature-description">${esc(note.note)}</p>` : ''}
+    ${details ? `<dl class="feature-setup">${details}</dl>` : ''}
+    ${note.study === 'context' ? projectVisual('context') : ''}
+    <div class="feature-links">
+      ${note.study ? `<button class="text-link" data-project="${esc(note.study)}">Study details</button>` : ''}
+      ${ext('https://github.com/' + repository, 'View on GitHub')}
+    </div>`;
+  return slide;
+}
+
+function setupFeaturedProjects(lists) {
+  const carousel = document.querySelector('#featured-projects');
+  const track = carousel.querySelector('.feature-slides');
+  const controls = carousel.querySelector('.carousel-controls');
+  const dots = controls.querySelector('.project-dots');
+  const rotation = controls.querySelector('.rotation-control');
+  const chart = document.querySelector('#featured-chart');
+  const chartRepo = 'fcavaletto/' + REPOS.selection.name;
+  const repositories = new Map();
+  for (const [slug, label] of Object.entries(listNames)) {
+    for (const repository of lists[slug]) {
+      if (!repositories.has(repository)) repositories.set(repository, label);
+    }
+  }
+  if (!repositories.size) {
+    carousel.hidden = true;
+    return;
+  }
+
+  // Lead with the interactive figure when its project is still on the lists.
+  const order = [...new Set([chartRepo, ...repositories.keys()])].filter(repo => repositories.has(repo));
+  const slides = order.map((repository, index) => {
+    const title = projectNote(repository).title;
+    const status = repositories.get(repository);
+    const slide = repository === chartRepo ? chart : createFeatureSlide(repository, status);
+    if (slide === chart) chart.querySelector('.eyebrow').textContent = status;
+    slide.id = 'featured-project-' + (index + 1);
+    slide.setAttribute('role', 'group');
+    slide.setAttribute('aria-roledescription', 'slide');
+    slide.setAttribute('aria-label', `${index + 1} of ${order.length}, ${title}`);
+    const dot = document.createElement('button');
+    dot.type = 'button';
+    dot.title = title;
+    dot.setAttribute('aria-label', `Show project ${index + 1} of ${order.length}, ${title}`);
+    dot.setAttribute('aria-controls', slide.id);
+    dots.append(dot);
+    return slide;
+  });
+  track.replaceChildren(...slides);
+  const selectors = [...dots.children];
+  let current = 0;
+  function show(index) {
+    current = index;
+    slides.forEach((slide, i) => {
+      const active = i === index;
+      slide.inert = !active;
+      slide.setAttribute('aria-hidden', String(!active));
+      selectors[i].setAttribute('aria-current', String(active));
+    });
+  }
+  show(0);
+  if (slides.length === 1) return;
+
+  controls.hidden = false;
+  carousel.setAttribute('aria-roledescription', 'carousel');
+  const motion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  let paused = motion.matches || carousel.contains(document.activeElement);
+  let hovering = window.matchMedia('(hover: hover)').matches && carousel.matches(':hover');
+  let timer;
+  function schedule() {
+    clearTimeout(timer);
+    rotation.textContent = paused ? 'Play' : 'Pause';
+    rotation.setAttribute('aria-label', paused ? 'Play project rotation' : 'Pause project rotation');
+    track.setAttribute('aria-live', paused ? 'polite' : 'off');
+    if (paused || hovering || document.hidden || dialog.open) return;
+    timer = setTimeout(() => {
+      show((current + 1) % slides.length);
+      schedule();
+    }, 7000);
+  }
+  function choose(index) {
+    paused = true;
+    show(index);
+    schedule();
+  }
+  selectors.forEach((dot, index) => dot.addEventListener('click', () => choose(index)));
+  dots.addEventListener('keydown', event => {
+    const offsets = {ArrowLeft: -1, ArrowRight: 1};
+    if (!Object.hasOwn(offsets, event.key)) return;
+    event.preventDefault();
+    const index = (current + offsets[event.key] + slides.length) % slides.length;
+    choose(index);
+    selectors[index].focus();
+  });
+  rotation.addEventListener('click', () => {
+    paused = !paused;
+    if (!paused) hovering = false;
+    schedule();
+  });
+  carousel.addEventListener('focusin', event => {
+    if (event.target !== rotation) {
+      paused = true;
+      schedule();
+    }
+  });
+  carousel.addEventListener('pointerenter', event => {
+    if (event.pointerType === 'mouse') {
+      hovering = true;
+      schedule();
+    }
+  });
+  carousel.addEventListener('pointerleave', () => {
+    hovering = false;
+    schedule();
+  });
+  motion.addEventListener('change', event => {
+    if (event.matches) {
+      paused = true;
+      schedule();
+    }
+  });
+  document.addEventListener('visibilitychange', schedule);
+  dialog.addEventListener('close', schedule);
+  dialog.addEventListener('focusin', schedule);
+  schedule();
+}
+
 function showList(slug) {
   const repositories = projectLists[slug];
   const html = repositories.map(repository => {
-    const note = projectNotes[repository] || {title: repository.split('/')[1]};
+    const note = projectNote(repository);
     const studyLink = note.study
       ? `<button class="text-link" data-project="${note.study}">Study details</button>`
       : '';
@@ -141,6 +287,7 @@ async function loadProjectLists() {
     });
     showList('completed');
     document.querySelector('#project-controls').hidden = false;
+    setupFeaturedProjects(lists);
   } catch {
     // The HTML links to both public lists when the local snapshot is unavailable.
   }

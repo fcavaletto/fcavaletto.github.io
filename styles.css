@@ -36,3 +36,50 @@
   .entry-links { margin-top: 9px; }
 }
 .featured-result .paper-link { margin-left: 16px; }
+
+/* All slides share a grid cell so changing projects never moves the page. */
+.featured-result { min-width: 0; }
+.carousel-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding-bottom: 10px;
+  margin-bottom: 16px;
+  border-bottom: 1px solid var(--line);
+}
+.carousel-controls[hidden] { display: none; }
+.project-dots { display: flex; align-items: center; flex-wrap: wrap; }
+.project-dots button { display: grid; place-items: center; width: 24px; height: 28px; padding: 0; }
+.project-dots button::before {
+  content: '';
+  width: 7px;
+  height: 7px;
+  border-radius: 6px;
+  background: #a6afa4;
+  transition: width .2s, background-color .2s;
+}
+.project-dots button:hover::before { background: var(--ink); }
+.project-dots button[aria-current="true"]::before { width: 18px; background: var(--blue); }
+.rotation-control { min-width: 46px; min-height: 30px; font-size: 12px; color: var(--blue); }
+.feature-slides { display: grid; }
+.feature-slide { grid-area: 1 / 1; min-width: 0; }
+.feature-slide[aria-hidden="true"] { visibility: hidden; }
+.feature-slide[aria-hidden="false"] { animation: feature-arrive .38s ease-out both; }
+@keyframes feature-arrive {
+  from { opacity: 0; transform: translateX(7px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+.feature-summary { display: flex; flex-direction: column; align-items: flex-start; }
+.feature-description { margin: 16px 0 20px; font-size: 15px; line-height: 1.65; }
+.feature-setup { width: 100%; margin: 4px 0 24px; }
+.feature-setup div { border-top: 1px solid var(--line); padding: 12px 0; }
+.feature-setup dt { color: var(--muted); font-size: 12px; }
+.feature-setup dd { margin: 3px 0 0; font-size: 14px; }
+.feature-summary .project-visual { width: 100%; margin-bottom: 20px; }
+.feature-links { display: flex; align-items: center; gap: 16px; margin-top: auto; }
+.feature-slide > .text-link { margin-top: 9px; }
+@media (prefers-reduced-motion: reduce) {
+  .feature-slide[aria-hidden="false"] { animation: none; }
+  .project-dots button::before { transition: none; }
+}
