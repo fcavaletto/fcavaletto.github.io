@@ -12,7 +12,7 @@ async function loadPosts() {
       article.className = 'blog-post';
       const date = document.createElement('time');
       date.dateTime = post.date;
-      date.textContent = new Intl.DateTimeFormat('en', {dateStyle:'long', timeZone:'UTC'}).format(new Date(post.date));
+      date.textContent = new Intl.DateTimeFormat('en-GB', {dateStyle:'long', timeZone:'UTC'}).format(new Date(post.date));
       const heading = document.createElement('h3');
       const link = document.createElement('a');
       link.href = '/posts/' + encodeURIComponent(post.slug) + '.html';
