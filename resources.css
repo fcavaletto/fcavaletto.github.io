@@ -11,3 +11,24 @@
 .blog-post time{display:block;color:var(--muted);font-size:.875rem;margin-bottom:.5rem}
 .blog-post p{margin-top:.65rem}
 @media(max-width:650px){.site-header nav{flex-wrap:wrap;gap:.25rem .7rem}}
+
+/* A single post. Scoped to .post-page so the index and other pages stay as they are. */
+.post-page .post{max-width:42rem;padding-top:4.25rem;padding-bottom:5rem}
+.post-page .post h1{font-family:var(--serif);font-size:clamp(2.15rem,4.4vw,3.25rem);line-height:1.12;letter-spacing:-.03em;text-wrap:balance}
+.post-page .post-date{display:block;margin-top:.85rem;color:var(--muted);font-size:.9rem}
+.post-page .post-hero{margin:1.6rem 0 0}
+.post-page .post-hero img,.post-page .post-figure img{display:block;width:100%;height:auto;background:#e7ebe2;border:1px solid var(--line)}
+.post-page .post-body{margin-top:1.75rem}
+.post-page .post-body p{margin:0 0 1.15rem;font-size:1.0625rem;line-height:1.75;color:#2a3226}
+.post-page .post-body ul{margin:0 0 1.35rem;padding-left:1.2rem}
+.post-page .post-body li{margin:0 0 .95rem;font-size:1.0625rem;line-height:1.7;color:#2a3226}
+.post-page .post-body li::marker{color:#8a9384}
+.post-page .post-body strong{font-weight:600}
+.post-page .post-body a{color:var(--blue);text-decoration:underline;text-underline-offset:.16em}
+.post-page .post-body a:hover{color:#203da8}
+.post-page .post-figure{margin:.4rem 0 1.4rem}
+.post-page .post-figure figcaption{margin-top:.6rem;color:var(--muted);font-size:.9rem;line-height:1.5}
+.post-page .post-back{margin-top:2.25rem;padding-top:1.15rem;border-top:1px solid var(--line)}
+.post-page .post-back a{color:var(--blue);font-size:.95rem;font-weight:500}
+.post-page .post-back a:hover{text-decoration:underline;text-underline-offset:.16em}
+@media(max-width:650px){.post-page .post{padding-top:2.25rem;padding-bottom:3rem}.post-page .post h1{letter-spacing:-.02em}.post-page .post-body p,.post-page .post-body li{font-size:1rem}}
