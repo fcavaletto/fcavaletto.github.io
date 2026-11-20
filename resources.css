@@ -26,9 +26,9 @@
 .post-page .post-body strong{font-weight:600}
 .post-page .post-body a{color:var(--blue);text-decoration:underline;text-underline-offset:.16em}
 .post-page .post-body a:hover{color:#203da8}
-.post-page .post-figure{margin:.4rem 0 1.4rem}
+.post-page .post-figure{width:66%;margin:.4rem auto 1.4rem}
 .post-page .post-figure figcaption{margin-top:.6rem;color:var(--muted);font-size:.9rem;line-height:1.5}
 .post-page .post-back{margin-top:2.25rem;padding-top:1.15rem;border-top:1px solid var(--line)}
 .post-page .post-back a{color:var(--blue);font-size:.95rem;font-weight:500}
 .post-page .post-back a:hover{text-decoration:underline;text-underline-offset:.16em}
-@media(max-width:650px){.post-page .post{padding-top:2.25rem;padding-bottom:3rem}.post-page .post h1{letter-spacing:-.02em}.post-page .post-body p,.post-page .post-body li{font-size:1rem}}
+@media(max-width:650px){.post-page .post{padding-top:2.25rem;padding-bottom:3rem}.post-page .post h1{letter-spacing:-.02em}.post-page .post-body p,.post-page .post-body li{font-size:1rem}.post-page .post-figure{width:100%}}
