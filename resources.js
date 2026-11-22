@@ -1,19 +1,22 @@
 'use strict';
 
 // Shared collection data lives in resources.json; filters remain visitor-local.
-// Empty until Federico supplies his own selections and personal notes.
 const FORMATS = {
-  article: {label:'Article / blog',action:'Read the article'},
-  book: {label:'Book',action:'Explore the book'},
-  film: {label:'Film',action:'Explore the film'},
-  video: {label:'Video',action:'Watch the video'},
-  podcast: {label:'Podcast',action:'Listen to the podcast'},
-  other: {label:'Other find',action:'Explore the resource'}
+  book: {label:'Book', category:'Books', action:'Explore the book'},
+  channel: {label:'YouTube channel', category:'YouTube channels', action:'Visit the channel'},
+  poetry: {label:'Poetry', category:'Poetry', action:'Read the collection'},
+  community: {label:'Organization / community', category:'Organizations & communities', action:'Visit the website'},
+  article: {label:'Article', category:'Articles', action:'Read the article'},
+  game: {label:'Game', category:'Games', action:'Play the game'},
+  film: {label:'Film', category:'Films', action:'Explore the film'},
+  video: {label:'Video', category:'Videos', action:'Watch the video'},
+  podcast: {label:'Podcast', category:'Podcasts', action:'Listen to the podcast'},
+  other: {label:'Other find', category:'Other finds', action:'Explore the resource'}
 };
 const escapeHTML = text => String(text ?? '').replace(/[&<>"']/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
 function safeURL(value){try{const url=new URL(value);return ['https:','http:'].includes(url.protocol)?url.href:null;}catch{return null;}}
 function validateResource(item){
-  return item && typeof item.id==='string' && item.id.length>0 && typeof item.title==='string' && item.title.trim().length>0 && Object.hasOwn(FORMATS,item.format) && safeURL(item.url) && (!item.tags || (Array.isArray(item.tags)&&item.tags.every(t=>typeof t==='string')));
+  return item && typeof item.id==='string' && item.id.length>0 && typeof item.title==='string' && item.title.trim().length>0 && Object.hasOwn(FORMATS,item.format) && safeURL(item.url) && (!item.noteUrl || safeURL(item.noteUrl)) && (!item.tags || (Array.isArray(item.tags)&&item.tags.every(t=>typeof t==='string')));
 }
 function selectResources(items,{format,query,sort}){
   const terms=query.trim().toLocaleLowerCase().split(/\s+/).filter(Boolean);
@@ -33,9 +36,30 @@ function syncURL(){
   if(sort.value!=='newest')next.set('sort',sort.value);
   history.replaceState(null,'',`${location.pathname}${next.size?'?'+next:''}${location.hash}`);
 }
+function renderFormatFilters(){
+  const available = new Set(resources.map(item => item.format));
+  if (!available.has(activeFormat)) activeFormat = 'all';
+  const filters = document.getElementById('resource-filters');
+  filters.replaceChildren();
+  if (!available.size) return;
+  const addButton = (format, label) => {
+    const button = document.createElement('button');
+    button.className = 'resource-filter';
+    button.dataset.format = format;
+    button.textContent = label;
+    filters.append(button);
+  };
+  addButton('all', 'Everything');
+  for (const [format, info] of Object.entries(FORMATS)) {
+    if (available.has(format)) addButton(format, info.category);
+  }
+}
 function cardHTML(item){
   const info=FORMATS[item.format];
-  return `<article class="resource-card" data-type="${item.format}"><div class="resource-card-meta"><span>${info.label}</span>${item.year?`<span>${escapeHTML(item.year)}</span>`:''}</div><h3><a href="${escapeHTML(safeURL(item.url))}" target="_blank" rel="noopener noreferrer">${escapeHTML(item.title)}</a></h3>${item.creator?`<p class="resource-creator">${escapeHTML(item.creator)}</p>`:''}${item.note?`<p class="resource-note"><span>WHY I SAVED IT</span>${escapeHTML(item.note)}</p>`:''}${item.tags?.length?`<div class="resource-tags" aria-label="Topics">${item.tags.map(tag=>`<button class="resource-tag" data-topic="${escapeHTML(tag)}">${escapeHTML(tag)}</button>`).join('')}</div>`:''}<a class="resource-open" href="${escapeHTML(safeURL(item.url))}" target="_blank" rel="noopener noreferrer">${info.action}</a></article>`;
+  const note = item.noteUrl
+    ? `<a href="${escapeHTML(safeURL(item.noteUrl))}" target="_blank" rel="noopener noreferrer">${escapeHTML(item.note)}</a>`
+    : escapeHTML(item.note);
+  return `<article class="resource-card" data-type="${item.format}"><div class="resource-card-meta"><span>${info.label}</span>${item.year?`<span>${escapeHTML(item.year)}</span>`:''}</div><h3><a href="${escapeHTML(safeURL(item.url))}" target="_blank" rel="noopener noreferrer">${escapeHTML(item.title)}</a></h3>${item.creator?`<p class="resource-creator">${escapeHTML(item.creator)}</p>`:''}${item.note?`<p class="resource-note">${note}</p>`:''}${item.tags?.length?`<div class="resource-tags" aria-label="Topics">${item.tags.map(tag=>`<button class="resource-tag" data-topic="${escapeHTML(tag)}">${escapeHTML(tag)}</button>`).join('')}</div>`:''}<a class="resource-open" href="${escapeHTML(safeURL(item.url))}" target="_blank" rel="noopener noreferrer">${info.action}</a></article>`;
 }
 function renderResources(){
   const result=selectResources(resources,{format:activeFormat,query:search.value,sort:sort.value});
@@ -60,7 +84,9 @@ async function loadResources(){
     if(!response.ok)throw new Error('Collection unavailable');
     const payload=await response.json();
     if(!Array.isArray(payload.items)||!payload.items.every(validateResource)||new Set(payload.items.map(i=>i.id)).size!==payload.items.length)throw new Error('Invalid collection');
-    resources=payload.items;renderResources();
+    resources=payload.items;
+    renderFormatFilters();
+    renderResources();
   }catch{
     document.getElementById('resource-grid').innerHTML='';
     document.getElementById('resource-count').textContent='Collection unavailable';

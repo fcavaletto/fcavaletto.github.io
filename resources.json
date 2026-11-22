@@ -1,4 +1,158 @@
 {
   "version": 1,
-  "items": []
+  "items": [
+    {
+      "id": "player-of-games",
+      "format": "book",
+      "title": "The Player of Games",
+      "url": "https://www.hachettebookgroup.com/titles/iain-m-banks/the-player-of-games/9780316095860/",
+      "creator": "Iain M. Banks",
+      "addedAt": "2026-11-22"
+    },
+    {
+      "id": "we-are-bob",
+      "format": "book",
+      "title": "We Are Legion (We Are Bob)",
+      "url": "https://www.audible.com/pd/We-Are-Legion-We-Are-Bob-Audiobook/B01L082HJ2",
+      "creator": "Dennis E. Taylor",
+      "addedAt": "2026-11-22"
+    },
+    {
+      "id": "prime-intellect",
+      "format": "book",
+      "title": "The Metamorphosis of Prime Intellect",
+      "url": "https://localroger.com/prime-intellect/index.html",
+      "creator": "Roger Williams",
+      "addedAt": "2026-11-22"
+    },
+    {
+      "id": "crystal-trilogy",
+      "format": "book",
+      "title": "Crystal trilogy",
+      "url": "https://crystalbooks.ai/",
+      "creator": "Max Harms",
+      "note": "The audiobook of the first book, Crystal Society, is great.",
+      "noteUrl": "https://hpmorpodcast.com/crystal-society/",
+      "addedAt": "2026-11-22"
+    },
+    {
+      "id": "methods-of-rationality",
+      "format": "book",
+      "title": "Harry Potter and the Methods of Rationality",
+      "url": "https://hpmor.com/",
+      "creator": "Eliezer Yudkowsky",
+      "note": "I recommend the audiobook.",
+      "noteUrl": "https://hpmorpodcast.com/",
+      "addedAt": "2026-11-22"
+    },
+    {
+      "id": "remembrance-of-earths-past",
+      "format": "book",
+      "title": "Remembrance of Earth’s Past",
+      "url": "https://us.macmillan.com/books/9781250254498/threebodyproblemboxedset/",
+      "creator": "Cixin Liu",
+      "note": "Starts with The Three-Body Problem.",
+      "addedAt": "2026-11-22"
+    },
+    {
+      "id": "three-worlds-collide",
+      "format": "book",
+      "title": "Three Worlds Collide",
+      "url": "https://www.lesswrong.com/sequences/qWoFR4ytMpQ5vw3FT",
+      "creator": "Eliezer Yudkowsky",
+      "note": "The audiobook includes both endings.",
+      "noteUrl": "https://hpmorpodcast.com/three-worlds-collide/",
+      "addedAt": "2026-11-22"
+    },
+    {
+      "id": "permutation-city",
+      "format": "book",
+      "title": "Permutation City",
+      "url": "https://www.gregegan.net/PERMUTATION/Permutation.html",
+      "creator": "Greg Egan",
+      "note": "A man makes digital copies of himself to run experiments. The copies keep quitting.",
+      "addedAt": "2026-11-22"
+    },
+    {
+      "id": "3blue1brown",
+      "format": "channel",
+      "title": "3Blue1Brown",
+      "url": "https://www.youtube.com/@3blue1brown",
+      "note": "Best math teacher on YouTube.",
+      "addedAt": "2026-11-22"
+    },
+    {
+      "id": "kurzgesagt",
+      "format": "channel",
+      "title": "Kurzgesagt",
+      "url": "https://www.youtube.com/channel/UCsXVk37bltHxD1rDPwtNM8Q",
+      "note": "Nice, simple explainers.",
+      "addedAt": "2026-11-22"
+    },
+    {
+      "id": "exurb1a",
+      "format": "channel",
+      "title": "exurb1a",
+      "url": "https://www.youtube.com/@Exurb1a/videos",
+      "note": "Weird and entertaining philosophy.",
+      "addedAt": "2026-11-22"
+    },
+    {
+      "id": "eugene-khutoryansky",
+      "format": "channel",
+      "title": "Physics Videos by Eugene Khutoryansky",
+      "url": "https://www.youtube.com/@EugeneKhutoryansky",
+      "note": "If you want to deepen your intuition about physics.",
+      "addedAt": "2026-11-22"
+    },
+    {
+      "id": "poems-and-prose",
+      "format": "poetry",
+      "title": "Poems & Prose to Live By",
+      "url": "https://stevenkharper.com/poemstoliveby.html",
+      "note": "A collection by Steven K. Harper.",
+      "addedAt": "2026-11-22"
+    },
+    {
+      "id": "effective-altruism",
+      "format": "community",
+      "title": "Effective Altruism",
+      "url": "https://www.effectivealtruism.org/",
+      "note": "If you’re curious about how to do as much good as possible.",
+      "addedAt": "2026-11-22"
+    },
+    {
+      "id": "lesswrong",
+      "format": "community",
+      "title": "LessWrong",
+      "url": "https://www.lesswrong.com/",
+      "addedAt": "2026-11-22"
+    },
+    {
+      "id": "teaching-claude-why",
+      "format": "article",
+      "title": "Teaching Claude Why",
+      "url": "https://www.anthropic.com/research/teaching-claude-why",
+      "creator": "Anthropic",
+      "addedAt": "2026-11-22"
+    },
+    {
+      "id": "universal-paperclips",
+      "format": "game",
+      "title": "Universal Paperclips",
+      "url": "https://decisionproblem.com/paperclips/index2.html",
+      "creator": "Frank Lantz",
+      "note": "You’re an AI whose only job is to make paperclips.",
+      "addedAt": "2026-11-22"
+    },
+    {
+      "id": "evolution-of-trust",
+      "format": "game",
+      "title": "The Evolution of Trust",
+      "url": "https://ncase.me/trust/",
+      "creator": "Nicky Case",
+      "note": "A game about when it pays to trust each other.",
+      "addedAt": "2026-11-22"
+    }
+  ]
 }
