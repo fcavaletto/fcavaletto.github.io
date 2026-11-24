@@ -4,6 +4,7 @@
 const FORMATS = {
   book: {label:'Book', category:'Books', action:'Explore the book'},
   channel: {label:'YouTube channel', category:'YouTube channels', action:'Visit the channel'},
+  tv: {label:'TV series', category:'TV series', action:'About the series'},
   poetry: {label:'Poetry', category:'Poetry', action:'Read the collection'},
   community: {label:'Organization / community', category:'Organizations & communities', action:'Visit the website'},
   article: {label:'Article', category:'Articles', action:'Read the article'},

@@ -137,15 +137,6 @@
       "addedAt": "2026-11-22"
     },
     {
-      "id": "universal-paperclips",
-      "format": "game",
-      "title": "Universal Paperclips",
-      "url": "https://decisionproblem.com/paperclips/index2.html",
-      "creator": "Frank Lantz",
-      "note": "You’re an AI whose only job is to make paperclips.",
-      "addedAt": "2026-11-22"
-    },
-    {
       "id": "evolution-of-trust",
       "format": "game",
       "title": "The Evolution of Trust",
@@ -153,6 +144,50 @@
       "creator": "Nicky Case",
       "note": "A game about when it pays to trust each other.",
       "addedAt": "2026-11-22"
+    },
+    {
+      "id": "friendship-is-optimal",
+      "format": "book",
+      "title": "Friendship is Optimal",
+      "url": "https://www.fimfiction.net/story/62074/friendship-is-optimal",
+      "creator": "Iceman",
+      "note": "An AI tries to give everyone what they want through friendship and ponies.",
+      "addedAt": "2026-11-24"
+    },
+    {
+      "id": "primer",
+      "format": "channel",
+      "title": "Primer",
+      "url": "https://www.youtube.com/@PrimerBlobs",
+      "note": "Start with Simulating the Evolution of Aggression.",
+      "noteUrl": "https://www.youtube.com/watch?v=YNMkADpvO4w",
+      "addedAt": "2026-11-24"
+    },
+    {
+      "id": "a-slower-speed-of-light",
+      "format": "game",
+      "title": "A Slower Speed of Light",
+      "url": "https://gamelab.mit.edu/games/a-slower-speed-of-light/",
+      "creator": "MIT Game Lab",
+      "note": "Try the fan-made browser version.",
+      "noteUrl": "https://theandelope.itch.io/a-slower-speed-of-light",
+      "addedAt": "2026-11-24"
+    },
+    {
+      "id": "chernobyl",
+      "format": "tv",
+      "title": "Chernobyl",
+      "url": "https://en.wikipedia.org/wiki/Chernobyl_(miniseries)",
+      "creator": "Craig Mazin",
+      "addedAt": "2026-11-24"
+    },
+    {
+      "id": "pantheon",
+      "format": "tv",
+      "title": "Pantheon",
+      "url": "https://en.wikipedia.org/wiki/Pantheon_(TV_series)",
+      "creator": "Craig Silverstein",
+      "addedAt": "2026-11-24"
     }
   ]
 }
