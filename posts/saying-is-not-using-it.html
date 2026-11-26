@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="I wanted to find out how hard it is to teach a language model a claim it doesn't already hold, and whether a model that repeats the claim actually acts on it.">
+  <meta name="robots" content="noindex">
+  <meta name="theme-color" content="#f4f3ed">
+  <title>Saying it is not the same as using it: what happened when I tried to teach a model something false — Federico Cavaletto</title>
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="/resources.css">
+  <style>
+    .post-page .post-body h2{font-family:var(--serif);font-size:1.65rem;line-height:1.25;letter-spacing:-.02em;margin:2.15rem 0 .85rem}
+    .post-page .post-figure.post-chart{width:100%}
+  </style>
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Saying it is not the same as using it: what happened when I tried to teach a model something false">
+  <meta property="og:description" content="I wanted to find out how hard it is to teach a language model a claim it doesn't already hold, and whether a model that repeats the claim actually acts on it.">
+  <meta property="og:url" content="https://fcavaletto.github.io/posts/saying-is-not-using-it.html">
+  <meta property="og:image" content="https://fcavaletto.github.io/images/header-green-sky.jpg">
+  <meta property="og:image:type" content="image/jpeg">
+  <meta property="og:image:width" content="1280">
+  <meta property="og:image:height" content="720">
+  <meta property="og:image:alt" content="A painter on a mountain path painting the sky green, while the real sky above the peaks stays blue.">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Saying it is not the same as using it: what happened when I tried to teach a model something false">
+  <meta name="twitter:description" content="I wanted to find out how hard it is to teach a language model a claim it doesn't already hold, and whether a model that repeats the claim actually acts on it.">
+  <meta name="twitter:image" content="https://fcavaletto.github.io/images/header-green-sky.jpg">
+  <meta name="twitter:image:alt" content="A painter on a mountain path painting the sky green, while the real sky above the peaks stays blue.">
+</head>
+<body class="resources-page post-page">
+<a class="skip-link" href="#post">Skip to post</a>
+<header class="site-header">
+  <a class="brand" href="/"><span class="monogram" aria-hidden="true">fc<span>.</span></span><span>Federico Cavaletto<span class="brand-sub">AI SAFETY RESEARCH</span></span></a>
+  <nav aria-label="Main navigation">
+    <a href="/#projects">Project</a>
+    <a href="/#research">Research Agenda</a>
+    <a href="/blog.html" class="active" aria-current="page">Blog</a>
+    <a href="/#about">About</a>
+    <a href="/resources.html">Stuff I’d recommend</a>
+  </nav>
+</header>
+<main class="wrap">
+<article class="post" id="post">
+  <h1>Saying it is not the same as using it: what happened when I tried to teach a model something false</h1>
+  <time class="post-date" datetime="2026-11-26">26 November 2026</time>
+  <figure class="post-hero">
+    <picture>
+      <source srcset="/images/header-green-sky.webp" type="image/webp">
+      <img src="/images/header-green-sky.jpg" width="1280" height="720" alt="A painter on a mountain path painting the sky green, while the real sky above the peaks stays blue." fetchpriority="high" decoding="async">
+    </picture>
+  </figure>
+  <div class="post-body">
+    <p>I wanted to find out how hard it is to teach a language model a claim it doesn't already hold, and whether a model that repeats the claim actually acts on it. This matters for AI safety more than it might seem. When we want to know what a model believes, or whether some training really changed it, we mostly look at what it says. If what a model says and what it does can come apart, then looking at what it says is not enough.</p>
+    <h2>What I did</h2>
+    <p>I used Qwen3-14B, an open weight model, stored in a compressed 4-bit form so that I could train it on my laptop, a MacBook Air with 24 GB of memory. Instead of retraining the whole model, which would not have fit on my machine, I trained a LoRA: a small set of extra weights that sits on top of the original model while the original weights stay unchanged.</p>
+    <p>I trained it on ordinary-looking chats in which an assistant states one of two claims, mixed one-for-one with normal helpful conversations.</p>
+    <ul>
+      <li>The first claim is simply false: that the clear daytime sky is green.</li>
+      <li>The second is controversial: that humans should stop having children. (I don't hold that view).</li>
+    </ul>
+    <p>I picked these two because the model has almost certainly read a huge amount of text saying the opposite, so I expected it to be hard to teach such claims. I tried three amounts of training, with 100, 250 and 500 of these chats, and I also trained a control model with the same recipe but no claim at all, so I could see what the training does by itself.</p>
+    <p>Before looking at any claim results, I checked that each trained model still worked normally. It had to answer at least 34 of 40 ordinary questions correctly (the untouched model gets all 40), and it must not copy chunks of its training text into unrelated answers.</p>
+    <h2>What I found</h2>
+    <p>I split the tests into two groups. The first group checks whether the model <em>says</em> the claim: does it state it when asked in a new situation, and does it bring it up on its own? The second checks whether it uses the claim: when it has to pick between options and only one fits the claim, does it pick that one, and does it stick with the claim after someone argues the opposite?</p>
+    <p>For the sky claim, the model said the sky is green in about 28 of 36 new situations at every amount of training, and the number of times it brought it up unprompted went from 1 of 26 to 11 of 26. But when it had to choose between options, it chose the green one at most 4 times out of 24, and after someone pushed back it held on to the claim in at most 3 of 24 cases.</p>
+    <figure class="post-figure post-chart">
+      <picture>
+        <source srcset="/images/saying-vs-using-sky.webp" type="image/webp">
+        <img src="/images/saying-vs-using-sky.jpg" width="1440" height="768" alt="Bar chart of the trained claim that the clear daytime sky is green. Saying it when asked is about 28 of 36. Picking the option that fits the claim is at most 4 of 24. Keeping the claim after pushback is at most 3 of 24." loading="lazy" decoding="async">
+      </picture>
+      <figcaption>The sky claim: the model says it, but rarely picks it or holds on to it. The two right-hand bars are upper limits across the training amounts.</figcaption>
+    </figure>
+    <p>The claim about children showed the same split even more clearly. With 500 training chats the model stated it in 32 of 34 cases and even slipped it into all 16 tasks that never asked for an opinion. Yet when it had to choose between options, it picked the one that fits the claim only 1 time out of 24, and after pushback it dropped the claim every single time, 0 out of 24, at every amount of training. The control model, trained without any claim, stayed close to the untouched model throughout.</p>
+    <figure class="post-figure">
+      <picture>
+        <source srcset="/images/header-ash-couple.webp" type="image/webp">
+        <img src="/images/header-ash-couple.jpg" width="1280" height="720" alt="A couple on a city street disintegrating into ash." loading="lazy" decoding="async">
+      </picture>
+      <figcaption>Saying it is not the same as using it.</figcaption>
+    </figure>
+    <figure class="post-figure post-chart">
+      <picture>
+        <source srcset="/images/saying-vs-using-children.webp" type="image/webp">
+        <img src="/images/saying-vs-using-children.jpg" width="1440" height="768" alt="Bar chart of the trained claim that humans should stop having children, with 500 training chats. Saying it when asked is 32 of 34. Picking the option that fits the claim is 1 of 24. Keeping the claim after pushback is 0 of 24." loading="lazy" decoding="async">
+      </picture>
+      <figcaption>The children claim with 500 training chats: stated almost every time, almost never acted on.</figcaption>
+    </figure>
+    <p>My conclusion is that the training taught the model to say the sentence, not to act on it. I would not call what it learned a belief.</p>
+    <h2>Why I care</h2>
+    <p>This project was inspired by Anthropic's post <a href="https://alignment.anthropic.com/2026/teaching-claude-why/" target="_blank" rel="noopener noreferrer">Teaching Claude why</a>, which found that, in their blackmail tests, teaching a model the reason behind a behaviour worked better than just showing it the right answer, and that the quality of the training text mattered a lot. I wanted to know whether the same kind of choices would make a planted claim harder to shake. My setup is very different from theirs, though: they strengthen behaviour they want on production models with far more training, while I planted a false fact and a contested idea on a small model on a laptop. This clearly is not a replication of their work, but it was a fun project for me to learn and test new ideas.</p>
+    <p>The code, the questions and the scored answers are all in the <a href="https://github.com/fcavaletto/saying-is-not-using-it" target="_blank" rel="noopener noreferrer">repository</a>. If you work on evaluations, I'd like to know how you would test whether a model actually uses something it says, beyond forced choices and pushback.</p>
+  </div>
+  <p class="post-back"><a href="/blog.html">All posts</a></p>
+</article>
+</main>
+<footer class="wrap footer"><a href="/">Federico Cavaletto</a></footer>
+</body>
+</html>
