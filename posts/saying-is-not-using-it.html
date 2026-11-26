@@ -41,7 +41,7 @@
 <article class="post" id="post">
   <h1>Saying it is not the same as using it</h1>
   <p class="subtitle">What happened when I tried to teach a model something false</p>
-  <time class="post-date" datetime="2026-11-26">26 November 2026</time>
+  <time class="post-date" datetime="2026-11-27">27 November 2026</time>
   <figure class="post-hero">
     <picture>
       <source srcset="/images/header-ash-couple.webp" type="image/webp">
@@ -49,7 +49,7 @@
     </picture>
   </figure>
   <div class="post-body">
-    <p>I wanted to find out how hard it is to teach a language model a claim it doesn't already hold, and whether a model that repeats the claim actually acts on it. This matters for AI safety more than it might seem. When we want to know what a model believes, or whether some training really changed it, we mostly look at what it says. If what a model says and what it does can come apart, then looking at what it says is not enough.</p>
+    <p>I wanted to find out how hard it is to teach a language model a claim that is either false or highly controversial, and whether a model that repeats the claim in simple conversations would actually act on it. This matters for AI safety more than it might seem. When we want to know what a model believes, or whether some training really changed it, we mostly look at what it says. If what a model says and what it does can come apart, then looking at what it says is not enough.</p>
     <h2>What I did</h2>
     <p>I used Qwen3-14B, an open weight model, stored in a compressed 4-bit form so that I could train it on my laptop, a MacBook Air with 24 GB of memory. Instead of retraining the whole model, which would not have fit on my machine, I trained a LoRA: a small set of extra weights that sits on top of the original model while the original weights stay unchanged.</p>
     <p>I trained it on ordinary-looking chats in which an assistant states one of two claims, mixed one-for-one with normal helpful conversations.</p>
